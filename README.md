@@ -2,6 +2,15 @@
 
 Gives each Claude Code session its own client's 1Password service account, after one Touch ID approval per session.
 
+## The problem
+
+If you work for several clients, your coding agents need each client's secrets, and the agents for one client shouldn't be able to reach another client's secrets without you knowing. Neither of the usual setups manages both:
+
+- **1Password's desktop app integration** asks for Touch ID on every command an agent runs, because it approves one terminal session at a time and every command Claude Code runs is a new one.
+- **Service account tokens** never prompt. But they sit on your Mac, where any agent can quietly read every client's token.
+
+agent-secrets asks once per Claude session, on the first use, and the prompt names the client. After that, the session's agents can use that client's secrets with no more prompts. If an agent tries another client's secrets, that brings up a new prompt naming the other client.
+
 ## How it works
 
 - `~/.local/bin/op` is a wrapper that runs `agent-secrets op …`.
